@@ -1,0 +1,26 @@
+{
+    "aws": {
+        "region": "us-east-1",
+        "profile": "default",
+        "max_retries": 3,
+        "timeout": 30
+    },
+    "collector": {
+        "batch_size": 100,
+        "max_threads": 5,
+        "skip_empty": true,
+        "include_global": true
+    },
+    "required_tags": {
+        "ApplicationId": "required"
+    },
+    "resource_types": [
+        "ec2/instances",
+        "ec2/vpcs",
+        "s3/buckets",
+        "dynamodb/tables"
+    ],
+    "output_dir": "aws_inventory",
+    "log_level": "INFO",
+    "log_file": "aws_collector.log"
+} 
