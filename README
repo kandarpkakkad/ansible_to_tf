@@ -1,0 +1,112 @@
+# AWS Resource Collector
+
+A Python tool to collect and inventory AWS resources with support for tag-based filtering and selective resource collection.
+
+## Features
+
+- Collects detailed information about AWS resources
+- Supports tag-based filtering of resources
+- Allows selective collection of specific resource types
+- Automatically collects dependent resources (VPC, Security Groups, KMS)
+- Saves all resource information in JSON format
+- Creates an index of all collected resources
+
+## Prerequisites
+
+- Python 3.6+
+- AWS credentials configured (either through AWS CLI or environment variables)
+- Required Python packages:
+  ```bash
+  pip install boto3
+  ```
+
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/aws-resource-collector.git
+   cd aws-resource-collector
+   ```
+
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+## Usage
+
+Basic usage:
+```bash
+python aws_resource_collector.py
+```
+
+Filter resources by tags:
+```bash
+python aws_resource_collector.py --tags env=prod team=devops
+```
+
+Combine resource selection and tag filtering:
+```bash
+python aws_resource_collector.py --resources ec2 rds --tags env=prod
+```
+
+## Supported Resource Types
+
+Non-dependent resources (can be specified via --resources):
+- EC2 (`ec2`)
+- S3 (`s3`)
+- RDS (`rds`)
+- Lambda (`lambda`)
+- DynamoDB (`dynamodb`)
+- ECS (`ecs`)
+- API Gateway (`apigateway`)
+- CloudFront (`cloudfront`)
+- ELB (`elb`)
+- ElastiCache (`elasticache`)
+- ECR (`ecr`)
+- EFS (`efs`)
+- CloudWatch (`cloudwatch`)
+- Redshift (`redshift`)
+- SNS (`sns`)
+- SQS (`sqs`)
+- EventBridge (`eventbridge`)
+
+Dependent resources (automatically collected when referenced):
+- VPC
+- Security Groups
+- KMS Keys
+
+## Output
+
+The tool creates a timestamped directory (`aws_inventory_YYYYMMDD_HHMMSS`) containing:
+- JSON files for each collected resource
+- Organized directory structure by service
+- `index.json` listing all collected resources
+
+Example output structure:
+```
+aws_inventory_20240315_123456/
+├── ec2/
+│   ├── instances/
+│   ├── security_groups/
+│   └── vpcs/
+├── s3/
+│   └── buckets/
+├── lambda/
+│   └── functions/
+└── index.json
+```
+
+## Error Handling
+
+- Failed API calls are logged but don't stop the collection process
+- Resources that can't be accessed are skipped with a warning
+- Invalid resource types specified via --resources are reported and skipped
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
